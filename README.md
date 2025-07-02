@@ -116,7 +116,7 @@ sudo apt install aircrack-ng python3-scapy figlet lolcat gnome-terminal
 - Detect interface → Monitor mode
 - AP scan (GNOME terminal)
 - AP selection
-- Background deauth via `test_b.py`
+- Background deauth
 - Session logging
 - Safe exit → restores managed mode
 
