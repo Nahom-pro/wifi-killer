@@ -1,4 +1,4 @@
-<div style="color:blue; shadow: 1px 1px 5px black; font-weight:bold;"> 
+<div style="color:blue; shadow: 1px 1px 5px black; font-weight:bolder; font-family: cursive;"> 
 
 # 🛡️ ShadoWalker — >   Wi‑Fi Killer 
 </div>
