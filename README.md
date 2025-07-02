@@ -1,5 +1,5 @@
-<h1 align="center">
-🛡️ <strong>ShadoWalker</strong> =&gt; <em>Wi‑Fi Killer</em></h1>
+
+🛡️ <strong>ShadoWalker</strong> =&gt; <em>Wi‑Fi Killer</em>
 
 ```bash
        ____  _               _    __        __    _ _                _           
