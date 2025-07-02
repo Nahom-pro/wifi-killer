@@ -1,4 +1,4 @@
-# 🛡️ ShadoWalker — Wi‑Fi Enforcer
+# 🛡️ ShadoWalker — Wi‑Fi Killer
 
 ```bash
    ____  _               _    __        __    _ _                _           
