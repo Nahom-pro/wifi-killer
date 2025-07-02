@@ -97,8 +97,8 @@ whitelist[
 ## 🧾 Sample Log Output
 
 ```
-[2025-06-30 03:36:22] Deauthed: CC:B1:82:88:38:E4 (Samsung)
-[2025-06-30 03:37:01] Deauthed: 28:77:77:4D:15:32 (Apple)
+[2025-06-30 03:36:22] Deauthed: CC:B1:82:88:38:E4 
+[2025-06-30 03:37:01] Deauthed: 28:77:77:4D:15:32 
 ```
 
 ---
