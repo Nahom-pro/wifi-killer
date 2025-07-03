@@ -129,3 +129,34 @@ def view_status():
             print(colored("Log file is empty.\n", "blue"))
     else:
         print(colored("No log file found.\n", "red"))
+
+
+# === MAIN MENU ===
+def main():
+    banner()
+    detect_iface()
+    start_monitor()
+    while True:
+        line()
+        print(colored("[1] Start Deauth   [2] Stop Deauth   [3] View Status   [4] Exit", "cyan"))
+        choice = input(colored("Choice: ", "green"))
+        if choice == "1":
+            os.system(f"rm -f {TMP_PREFIX}-*")
+            scan_aps()
+            aps = parse_csv()
+            if not aps:
+                error("No APs found.")
+                continue
+            ap = choose_ap(aps)
+            start_deauth(ap["BSSID"], ap["Channel"])
+            
+        elif choice == "2":
+            stop_deauth()
+        elif choice == "3":
+            view_status()
+        elif choice == "4":
+            stop_monitor()
+            print(colored("\n[✓] Exiting... Goodbye!\n", "green"))
+            break
+        else:
+            error("Invalid option.")
