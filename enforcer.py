@@ -46,3 +46,12 @@ def stop_monitor():
     subprocess.run(["airmon-ng", "stop", MONITOR_IFACE], stdout=subprocess.DEVNULL)
     subprocess.run(["systemctl", "start", "NetworkManager"], stdout=subprocess.DEVNULL)
     success("Restored managed mode & restarted NetworkManager.")
+
+# === AIRODUMP ===
+def scan_aps():
+    status("Opening GNOME terminal to scan nearby APs...")
+    cmd = f"sudo airodump-ng -w {TMP_PREFIX} --output-format csv {MONITOR_IFACE}"
+    gnome_cmd = f"sudo -u \"$(logname)\" gnome-terminal -- bash -c \"{cmd}; exec bash\""
+    os.system(gnome_cmd)
+    input(colored("\n[Enter] when ready to continue: ", "green"))
+
