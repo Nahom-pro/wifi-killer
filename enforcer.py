@@ -100,3 +100,19 @@ def start_deauth(bssid, channel):
     status(f"Clients: {CLIENT_LOG}")
     print(colored("\n[✓] You can close this terminal. Attack will continue.\n", "green"))
 
+def stop_deauth():
+    if os.path.exists(PID_FILE):
+        with open(PID_FILE, "r") as f:
+            pid = f.read().strip()
+            try:
+                process = psutil.Process(int(pid))
+                process.terminate()
+                success("Deauth process stopped.")
+            except psutil.NoSuchProcess:
+                error("No active deauth process found.")
+        os.remove(PID_FILE)
+        stop_monitor()
+    else:
+        error("No active deauth session.")
+
+
