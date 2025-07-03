@@ -20,7 +20,7 @@
 
 ## 📌 Project Overview
 
-**ShadoWalker** is a terminal-based, aggressive Wi‑Fi enforcement tool developed for **Kali Linux**.
+**wifi-killer** is a terminal-based, aggressive Wi‑Fi enforcement tool developed for **Kali Linux**.
 
 This script protects your chosen Wi‑Fi network by continuously deauthenticating unknown or unauthorized devices. It is built for ethical hackers, red teamers, and wireless researchers who want fine control over their network security.
 
@@ -50,12 +50,12 @@ chmod +x installer.sh
 sudo ./installer.sh
 ```
 
-✅ You will find **Wi‑Fi Enforcer** in your Applications Menu after installation.
+✅ You will find **wifi-killer** in your Applications Menu after installation.
 
 You can also launch it using:
 
 ```bash
-sudo wifi-enforcer
+sudo wifi-killer
 ```
 
 ---
@@ -88,8 +88,8 @@ Edit `whitelist[]` on backround_deauth.py:
 
 ```
 whitelist[
-'00:11:22:33:44:55',
-'AA:BB:CC:DD:EE:FF'
+'00:11:22:33:44:55', # your Labtop
+'AA:BB:CC:DD:EE:FF'  # your Phone
 ]
 ```
 
