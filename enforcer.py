@@ -72,3 +72,16 @@ def parse_csv():
         error("Scan result not found.")
     return aps
 
+def choose_ap(aps):
+    print(colored("\n📡 Available Access Points:", "magenta", attrs=["bold"]))
+    for i, ap in enumerate(aps):
+        essid = ap["ESSID"] if ap["ESSID"] else "[Hidden]"
+        print(colored(f"{i}) {essid:20} {ap['BSSID']}  Ch:{ap['Channel']}", "white"))
+    try:
+        idx = int(input(colored("\nSelect AP number to protect: ", "green")))
+        return aps[idx]
+    except:
+        error("Invalid selection.")
+        stop_monitor()
+        sys.exit(1)
+
