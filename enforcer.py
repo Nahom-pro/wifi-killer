@@ -27,3 +27,11 @@ def status(msg, symbol="[*]", color="cyan"): print(colored(f"{symbol} {msg}", co
 def success(msg): status(msg, "[✓]", "green")
 def error(msg): status(msg, "[✗]", "red")
 def line(): print(colored("─" * 50, "blue"))
+
+# === INTERFACE DETECTION ===
+def detect_iface():
+    global IFACE
+    result = subprocess.getoutput("iw dev")
+    match = re.search(r"Interface\s+(\w+)", result)
+    IFACE = match.group(1) if match else "wlan0"
+    success(f"Interface selected: {IFACE}")
