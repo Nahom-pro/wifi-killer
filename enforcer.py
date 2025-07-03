@@ -130,7 +130,6 @@ def view_status():
     else:
         print(colored("No log file found.\n", "red"))
 
-
 # === MAIN MENU ===
 def main():
     banner()
@@ -161,7 +160,7 @@ def main():
         else:
             error("Invalid option.")
 
-    if __name__ == "__main__":
+if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
