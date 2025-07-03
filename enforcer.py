@@ -13,3 +13,12 @@ PID_FILE = os.path.join(SESSION_DIR, "deauth.pid")
 CLIENT_LOG = os.path.join(SESSION_DIR, "clients.log")
 IFACE = ""
 MONITOR_IFACE = ""
+
+# === VISUALS ===
+def banner():
+    os.system("clear")
+    print("\n")
+    os.system("figlet -c 'ShadoWalker  by  Nahom' | /usr/games/lolcat -a -d 2")
+    print(colored("═" * 50, "cyan"))
+    print(colored("  Aggressively Deauth Unauthorized Clients", "cyan"))
+    print(colored("═" * 50 + "\n", "cyan"))
