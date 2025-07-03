@@ -115,4 +115,17 @@ def stop_deauth():
     else:
         error("No active deauth session.")
 
-
+def view_status():
+    print(colored("\n[📋] Active Deauthed Clients Log:", "yellow"))
+    if os.path.exists(CLIENT_LOG):
+        try:
+            with open(CLIENT_LOG, "r") as f:
+                lines = f.readlines()
+                if lines:
+                    print("".join(lines[-10:]))
+                else:
+                    print(colored("No clients deauthed yet.\n", "blue"))
+        except:
+            print(colored("Log file is empty.\n", "blue"))
+    else:
+        print(colored("No log file found.\n", "red"))
