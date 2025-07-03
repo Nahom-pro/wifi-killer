@@ -41,3 +41,8 @@ def start_monitor():
     subprocess.run(["airmon-ng", "start", IFACE], stdout=subprocess.DEVNULL)
     MONITOR_IFACE = IFACE + "mon"
     success(f"Monitor mode enabled on {MONITOR_IFACE}")
+
+def stop_monitor():
+    subprocess.run(["airmon-ng", "stop", MONITOR_IFACE], stdout=subprocess.DEVNULL)
+    subprocess.run(["systemctl", "start", "NetworkManager"], stdout=subprocess.DEVNULL)
+    success("Restored managed mode & restarted NetworkManager.")
