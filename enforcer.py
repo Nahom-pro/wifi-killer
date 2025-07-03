@@ -35,3 +35,9 @@ def detect_iface():
     match = re.search(r"Interface\s+(\w+)", result)
     IFACE = match.group(1) if match else "wlan0"
     success(f"Interface selected: {IFACE}")
+
+def start_monitor():
+    global MONITOR_IFACE
+    subprocess.run(["airmon-ng", "start", IFACE], stdout=subprocess.DEVNULL)
+    MONITOR_IFACE = IFACE + "mon"
+    success(f"Monitor mode enabled on {MONITOR_IFACE}")
