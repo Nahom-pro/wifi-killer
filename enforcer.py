@@ -22,3 +22,8 @@ def banner():
     print(colored("═" * 50, "cyan"))
     print(colored("  Aggressively Deauth Unauthorized Clients", "cyan"))
     print(colored("═" * 50 + "\n", "cyan"))
+
+def status(msg, symbol="[*]", color="cyan"): print(colored(f"{symbol} {msg}", color))
+def success(msg): status(msg, "[✓]", "green")
+def error(msg): status(msg, "[✗]", "red")
+def line(): print(colored("─" * 50, "blue"))
