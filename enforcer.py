@@ -160,3 +160,11 @@ def main():
             break
         else:
             error("Invalid option.")
+
+    if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        stop_monitor()
+        print(colored("\n[!] Interrupted. Cleaned up and exiting...\n", "red"))
+        sys.exit(0)
