@@ -55,3 +55,20 @@ def scan_aps():
     os.system(gnome_cmd)
     input(colored("\n[Enter] when ready to continue: ", "green"))
 
+def parse_csv():
+    aps = []
+    try:
+        with open(TMP_CSV, "r", encoding="utf-8", errors="ignore") as f:
+            for line in f:
+                if re.match(r"(?:[0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}", line):
+                    parts = [x.strip() for x in line.split(",")]
+                    if len(parts) > 13:
+                        aps.append({
+                            "BSSID": parts[0],
+                            "Channel": parts[3],
+                            "ESSID": parts[13]
+                        })
+    except FileNotFoundError:
+        error("Scan result not found.")
+    return aps
+
