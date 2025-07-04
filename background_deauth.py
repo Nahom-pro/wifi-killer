@@ -8,3 +8,5 @@ from datetime import datetime
 if len(sys.argv) != 5:
     print("Usage: python3 background_deauth.py <iface> <bssid> <channel> <logfile>")
     sys.exit(1)
+    
+iface, bssid, channel, logfile = sys.argv[1:5]
