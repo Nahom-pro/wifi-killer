@@ -25,3 +25,18 @@ sniff_timeout = 2
 
 # Ensure log directory exists
 os.makedirs(os.path.dirname(logfile), exist_ok=True)
+
+def log_client(mac, reason=""):
+    """Enhanced logging with band info and reason"""
+    if mac not in clients_seen:
+        clients_seen.add(mac)
+        timestamp = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
+        log_entry = f"{timestamp} Deauth to {mac} on {BAND}GHz"
+        if reason:
+            log_entry += f" ({reason})"
+        try:
+            with open(logfile, "a") as f:
+                f.write(log_entry + "\n")
+        except IOError as e:
+            print(f"[!] Log error: {e}")
+
