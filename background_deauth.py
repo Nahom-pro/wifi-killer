@@ -81,3 +81,10 @@ def packet_handler(pkt):
             if src and src != bssid and src not in whitelist:
                 active_clients.add(src)
                 deauth(src, "AssoReq")
+        
+        # General MAC detection
+        if pkt.addr1 and pkt.addr1 != bssid and pkt.addr1 not in whitelist:
+            active_clients.add(pkt.addr1)
+        if pkt.addr2 and pkt.addr2 != bssid and pkt.addr2 not in whitelist:
+            active_clients.add(pkt.addr2)
+
