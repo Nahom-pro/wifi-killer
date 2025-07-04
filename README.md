@@ -44,8 +44,8 @@ This script protects your chosen Wi‑Fi network by continuously deauthenticatin
 ## 🔧 Installation
 
 ```bash
-git clone https://github.com/nahom-pro/shadowalker.git
-cd shadowalker
+git clone https://github.com/Nahom-pro/wifi-killer.git
+cd wifi-killer
 chmod +x installer.sh
 sudo ./installer.sh
 ```
