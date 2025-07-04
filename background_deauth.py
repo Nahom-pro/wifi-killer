@@ -88,3 +88,26 @@ def packet_handler(pkt):
         if pkt.addr2 and pkt.addr2 != bssid and pkt.addr2 not in whitelist:
             active_clients.add(pkt.addr2)
 
+def get_clients():
+    """Multi-method client detection"""
+    active_clients.clear()
+    
+    # Method 1: ARP table scan
+    try:
+        with open("/proc/net/arp", "r") as f:
+            for line in f.readlines()[1:]:
+                mac = line.split()[3]
+                if mac != "00:00:00:00:00:00" and mac not in whitelist:
+                    active_clients.add(mac)
+    except Exception as e:
+        print(f"[!] ARP scan error: {e}")
+
+    # Method 2: Active sniffing
+    print(f"[*] Sniffing {BAND}GHz (ch{channel})...")
+    try:
+        sniff(iface=iface, prn=packet_handler, timeout=sniff_timeout, store=0)
+    except Exception as e:
+        print(f"[!] Sniff error: {e}")
+
+    return active_clients
+
