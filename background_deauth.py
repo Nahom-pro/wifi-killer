@@ -15,3 +15,10 @@ iface, bssid, channel, logfile = sys.argv[1:5]
 whitelist = ["00:11:22:33:44:55"]  # Add your MAC if needed
 clients_seen = set()
 active_clients = set()
+
+# Band-specific timing
+BAND = '2.4' if int(channel) <= 14 else '5'
+deauth_count = 7 if BAND == '2.4' else 5       # More packets for 2.4GHz
+deauth_interval = 0.1 if BAND == '2.4' else 0.15 # Slightly slower for 5GHz
+scan_interval = 3
+sniff_timeout = 2
