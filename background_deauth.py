@@ -22,3 +22,6 @@ deauth_count = 7 if BAND == '2.4' else 5       # More packets for 2.4GHz
 deauth_interval = 0.1 if BAND == '2.4' else 0.15 # Slightly slower for 5GHz
 scan_interval = 3
 sniff_timeout = 2
+
+# Ensure log directory exists
+os.makedirs(os.path.dirname(logfile), exist_ok=True)
