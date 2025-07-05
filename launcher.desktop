@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=wifi-killer
 Comment=Aggressively Deauth Unauthorized Clients
-Exec=sudo /usr/local/bin/wifi-enforcer
+Exec=Exec=gnome-terminal -- bash -c "sudo /usr/local/bin/wifi-enforcer; echo 'Press ENTER to close...'; read"
 Icon=/usr/share/icons/wifi-enforcer.png
 Terminal=true
 Type=Application
