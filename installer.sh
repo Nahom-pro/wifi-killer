@@ -37,3 +37,8 @@ Terminal=false
 Categories=Network;Security;
 StartupNotify=true
 EOF
+# === STEP 5: Update Icon Cache (optional) ===
+sudo gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true
+
+echo "[✓] $APP_NAME installed successfully!"
+echo "➡️  You can now launch it from your Applications menu."
