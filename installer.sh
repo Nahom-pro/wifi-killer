@@ -22,3 +22,18 @@ else
     echo "[!] Icon not found at assets/enforcer.png. Using default icon."
     ICON_PATH="/usr/share/icons/hicolor/64x64/apps/network-wifi.png"
 fi
+# === STEP 4: Create Desktop Entry with Root Prompt ===
+echo "[*] Creating desktop launcher at $DESKTOP_ENTRY..."
+
+cat <<EOF | sudo tee "$DESKTOP_ENTRY" > /dev/null
+[DesktopEntry]
+Version=1.0
+Type=Application
+Name=$APP_NAME
+Comment=Aggressive Wi‑Fi deauthentication tool
+Exec=pkexec env DISPLAY=\$DISPLAY XAUTHORITY=\$XAUTHORITY gnome-terminal -- bash -c 'python3 $INSTALL_DIR/enforcer.py; exec bash'
+Icon=$APP_ID
+Terminal=false
+Categories=Network;Security;
+StartupNotify=true
+EOF
