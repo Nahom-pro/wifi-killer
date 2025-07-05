@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+
 # === CONFIG ===
 APP_NAME="Wi‑Fi Enforcer"
 APP_ID="wi-fi-enforcer"
@@ -11,6 +12,7 @@ echo "[*] Installing $APP_NAME..."
 
 # === STEP 1: Create Installation Directory ===
 sudo mkdir -p "$INSTALL_DIR/assets"
+
 # === STEP 2: Copy Core Scripts ===
 sudo cp enforcer.py background_deauth.py "$INSTALL_DIR/"
 sudo chmod +x "$INSTALL_DIR/enforcer.py" "$INSTALL_DIR/background_deauth.py"
@@ -22,6 +24,7 @@ else
     echo "[!] Icon not found at assets/enforcer.png. Using default icon."
     ICON_PATH="/usr/share/icons/hicolor/64x64/apps/network-wifi.png"
 fi
+
 # === STEP 4: Create Desktop Entry with Root Prompt ===
 echo "[*] Creating desktop launcher at $DESKTOP_ENTRY..."
 
@@ -37,6 +40,7 @@ Terminal=false
 Categories=Network;Security;
 StartupNotify=true
 EOF
+
 # === STEP 5: Update Icon Cache (optional) ===
 sudo gtk-update-icon-cache /usr/share/icons/hicolor/ 2>/dev/null || true
 
