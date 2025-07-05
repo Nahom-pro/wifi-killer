@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Wi-Fi Enforcer
+Comment=Aggressively Deauth Unauthorized Clients
+Exec=sudo /usr/local/bin/wifi-enforcer
+Icon=/usr/share/icons/wifi-enforcer.png
+Terminal=true
+Type=Application
+Categories=Network;Security;
