@@ -11,3 +11,6 @@ echo "[*] Installing $APP_NAME..."
 
 # === STEP 1: Create Installation Directory ===
 sudo mkdir -p "$INSTALL_DIR/assets"
+# === STEP 2: Copy Core Scripts ===
+sudo cp enforcer.py background_deauth.py "$INSTALL_DIR/"
+sudo chmod +x "$INSTALL_DIR/enforcer.py" "$INSTALL_DIR/background_deauth.py"
