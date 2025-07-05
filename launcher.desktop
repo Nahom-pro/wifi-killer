@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Wi-Fi Enforcer
+Name=wifi-killer
 Comment=Aggressively Deauth Unauthorized Clients
 Exec=sudo /usr/local/bin/wifi-enforcer
 Icon=/usr/share/icons/wifi-enforcer.png
