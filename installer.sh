@@ -14,3 +14,11 @@ sudo mkdir -p "$INSTALL_DIR/assets"
 # === STEP 2: Copy Core Scripts ===
 sudo cp enforcer.py background_deauth.py "$INSTALL_DIR/"
 sudo chmod +x "$INSTALL_DIR/enforcer.py" "$INSTALL_DIR/background_deauth.py"
+
+# === STEP 3: Copy Icon ===
+if [ -f assets/enforcer.png ]; then
+    sudo cp assets/enforcer.png "$ICON_PATH"
+else
+    echo "[!] Icon not found at assets/enforcer.png. Using default icon."
+    ICON_PATH="/usr/share/icons/hicolor/64x64/apps/network-wifi.png"
+fi
