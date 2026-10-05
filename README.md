@@ -107,7 +107,7 @@ whitelist[
 ## 📦 Dependencies
 
 ```bash
-sudo apt install aircrack-ng python3-scapy figlet lolcat gnome-terminal
+sudo apt install aircrack-ng python3-psutil python3-scapy python3-termcolor figlet iw lolcat network-manager
 ```
 
 ---
